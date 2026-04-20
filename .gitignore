@@ -1,0 +1,16 @@
+# Python cache and virtual environment
+__pycache__/
+*.py[cod]
+.venv/
+
+# Training artifacts
+outputs/
+*.pt
+*.pth
+
+# Dataset artifacts
+data/
+*.tar.gz
+
+# Streamlit local config
+.streamlit/
