@@ -235,7 +235,6 @@ Yes. Use `--hidden-dims` with 2 or 3 comma-separated values, for example `1024,5
 Checkpoint and dataset files are large; ignoring them keeps repository size small and push-safe.
 
 ## License and usage
-
 MIT License
 
 Copyright (c) 2026 SQUADRON-LEADER
