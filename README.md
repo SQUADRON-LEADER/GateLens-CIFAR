@@ -118,6 +118,22 @@ Quick smoke test:
 python train.py --epochs 1 --batch-size 256 --lambdas 1e-6,1e-5,1e-4 --run-baseline
 ```
 
+### Training protocol (recommended)
+
+| Stage | Goal | Suggested setting |
+|---|---|---|
+| Smoke run | Verify pipeline and outputs | epochs=1, batch-size=256 |
+| Baseline fit | Establish non-pruning reference | --run-baseline enabled |
+| Lambda sweep | Observe sparsity-accuracy trade-off | 1e-6, 1e-5, 1e-4 |
+| Extended run | Improve pruning behavior | 20-50 epochs, tune lambda |
+
+### Reproducibility checklist
+
+1. Keep the same random seed (`--seed`).
+2. Keep hidden dimensions fixed during lambda comparison.
+3. Use same train/val split (`--val-split`) across runs.
+4. Report both accuracy and sparsity threshold used.
+
 ## Measured results snapshot
 
 From the current report run:
