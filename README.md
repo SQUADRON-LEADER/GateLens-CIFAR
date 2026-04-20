@@ -95,6 +95,19 @@ Interpretation:
 | REPORT.md | Case-study style summary and measured results |
 | outputs/ | Trained checkpoints and generated visual artifacts |
 
+## Documentation index
+
+| Document | Focus |
+|---|---|
+| [REPORT.md](REPORT.md) | Case-study summary and current measured metrics |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution workflow and checklist |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Collaboration expectations |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Model and pipeline architecture notes |
+| [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) | Reproducible experiment playbook |
+| [docs/STREAMLIT_GUIDE.md](docs/STREAMLIT_GUIDE.md) | Frontend usage and deployment guide |
+| [docs/RESULTS_TEMPLATE.md](docs/RESULTS_TEMPLATE.md) | Template for logging run outcomes |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Planned future improvements |
+
 ## Setup
 
 1. Create and activate a Python environment.
@@ -221,3 +234,5 @@ Checkpoint and dataset files are large; ignoring them keeps repository size smal
 ## License and usage
 
 This repository is intended for educational and research demonstration of differentiable pruning ideas on CIFAR-10.
+
+Licensed under MIT. See [LICENSE](LICENSE) for details.
