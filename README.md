@@ -1,6 +1,32 @@
 # GateLens-CIFAR
 
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 GateLens-CIFAR is a PyTorch project for learning sparse neural connections through trainable gates on top of standard MLP weights. It trains baseline and prunable models on CIFAR-10, compares accuracy versus sparsity across multiple regularization strengths, and includes a Streamlit frontend for interactive inference.
+
+## Quick links
+
+- Repository: https://github.com/SQUADRON-LEADER/GateLens-CIFAR
+- Report: [REPORT.md](REPORT.md)
+- Training script: [train.py](train.py)
+- Streamlit app: [app.py](app.py)
+
+## Table of contents
+
+1. [Project at a glance](#project-at-a-glance)
+2. [Architecture summary](#architecture-summary)
+3. [Why this induces sparsity](#why-this-induces-sparsity)
+4. [Repository structure](#repository-structure)
+5. [Setup](#setup)
+6. [Training](#training)
+7. [Measured results snapshot](#measured-results-snapshot)
+8. [Streamlit frontend](#streamlit-frontend)
+9. [Deploy on Streamlit Community Cloud](#deploy-on-streamlit-community-cloud)
+10. [Generated artifacts](#generated-artifacts)
+11. [License and usage](#license-and-usage)
 
 ## Project at a glance
 
