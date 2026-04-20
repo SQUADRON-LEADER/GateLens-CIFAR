@@ -184,6 +184,16 @@ Features:
 
 Note: if you need CIFAR test-sample mode in cloud, keep the data folder tracked or update app.py to download CIFAR at runtime.
 
+## Troubleshooting
+
+| Issue | Likely cause | Fix |
+|---|---|---|
+| `Import "streamlit" could not be resolved` | Package missing in active environment | `pip install -r requirements.txt` |
+| Push rejected by GitHub for large files | Dataset/checkpoints tracked by git | Ensure `.gitignore` excludes `data/` and `outputs/` |
+| Streamlit asks for email on first run | First-time Streamlit setup prompt | Press Enter to skip |
+| No checkpoints found in app | `outputs/` empty or wrong path | Train first or set correct checkpoint folder in sidebar |
+| Low sparsity after short run | Too few epochs / weak lambda | Increase epochs and test larger lambda |
+
 ## Generated artifacts
 
 | Artifact | Description |
