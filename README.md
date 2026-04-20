@@ -204,6 +204,20 @@ Note: if you need CIFAR test-sample mode in cloud, keep the data folder tracked 
 | sparsity_vs_accuracy.png | Trade-off visualization |
 | results_report.md | Auto-generated markdown summary |
 
+## FAQ
+
+### Why use an MLP instead of a CNN on CIFAR-10?
+This repository focuses on demonstrating differentiable pruning mechanics clearly. MLPs make gate behavior easier to inspect.
+
+### How is sparsity measured?
+Sparsity is reported as percentage of gate values below a threshold (default 1e-2).
+
+### Can I change hidden layers?
+Yes. Use `--hidden-dims` with 2 or 3 comma-separated values, for example `1024,512,256`.
+
+### Why are outputs ignored by git?
+Checkpoint and dataset files are large; ignoring them keeps repository size small and push-safe.
+
 ## License and usage
 
 This repository is intended for educational and research demonstration of differentiable pruning ideas on CIFAR-10.
