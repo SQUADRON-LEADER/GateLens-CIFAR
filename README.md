@@ -148,6 +148,15 @@ From the current report run:
 |---|---:|
 | Baseline MLP | 45.99 |
 
+### How to interpret these numbers
+
+| Observation | Practical meaning |
+|---|---|
+| Similar accuracy across low lambdas | Regularization is not yet strong enough to force heavy pruning |
+| Sparsity at 0.00% with threshold 1e-2 | Gates may be shrinking but not below the reporting threshold |
+| Baseline above prunable in short runs | Pruning objective often needs longer training to catch up |
+| Trade-off emerges with larger lambda or longer epochs | Better sparsity usually costs some accuracy |
+
 ## Streamlit frontend
 
 Run locally:
