@@ -106,6 +106,15 @@ def show_topk(probs: torch.Tensor, k: int = 5) -> None:
     st.table(rows)
 
 
+def build_demo_model(hidden_dims: Tuple[int, ...], model_kind: str) -> torch.nn.Module:
+    if model_kind == "BaselineMLP":
+        model: torch.nn.Module = BaselineMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
+    else:
+        model = PrunableMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
+    model.eval()
+    return model
+
+
 def main() -> None:
     st.set_page_config(page_title=PROJECT_NAME, page_icon="🧠", layout="wide")
 
@@ -123,6 +132,11 @@ def main() -> None:
             ["PrunableMLP", "BaselineMLP"],
             index=0,
             help="Choose the architecture used when this checkpoint was trained.",
+        )
+        allow_demo_mode = st.checkbox(
+            "Allow demo mode when no checkpoint is loaded",
+            value=True,
+            help="Uses a randomly initialized model so you can still interact with the app.",
         )
 
     checkpoints = list_checkpoints(output_dir)
@@ -149,6 +163,10 @@ def main() -> None:
     elif uploaded_ckpt is not None:
         model = load_uploaded_model(uploaded_ckpt, hidden_dims, uploaded_model_kind)
         checkpoint_kind = uploaded_model_kind
+    elif allow_demo_mode:
+        checkpoint_kind = uploaded_model_kind
+        model = build_demo_model(hidden_dims, checkpoint_kind)
+        st.warning("Running in demo mode with random weights. Upload a trained .pt checkpoint for real predictions.")
     else:
         st.error("Add a checkpoint: either provide a valid folder or upload a .pt file.")
         st.stop()
