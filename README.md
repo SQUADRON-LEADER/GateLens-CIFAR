@@ -58,6 +58,32 @@ SparsityLoss = sum(sigmoid(gate_scores))
 
 This behaves like an L1-style pressure on effective gates. Each active connection contributes linear cost, so training is encouraged to deactivate weaker connections whenever accuracy allows. Increasing lambda increases pruning pressure and usually shifts the model toward higher sparsity with a potential accuracy trade-off.
 
+## Mathematical formulation
+
+For a single prunable layer with input x, weight matrix W, bias b, and gate-score matrix G:
+
+1. Gate activation:
+	g = sigmoid(G)
+2. Effective weights:
+	W_eff = W * g
+3. Layer output:
+	y = W_eff x + b
+
+For a dataset D = {(x_i, t_i)} and model parameters theta:
+
+TotalLoss(theta) = CE(theta; D) + lambda * S(theta)
+
+Where:
+
+- CE is standard cross-entropy classification loss.
+- S(theta) = sum(sigmoid(G_l)) across all prunable layers l.
+
+Interpretation:
+
+- lambda controls the regularization strength.
+- Larger lambda penalizes active gates more strongly.
+- The optimization therefore balances predictive performance and effective sparsity.
+
 ## Repository structure
 
 | File | Purpose |
