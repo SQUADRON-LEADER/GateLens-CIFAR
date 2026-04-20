@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List, Tuple
+from typing import BinaryIO, List, Tuple
 
 import streamlit as st
 import torch
@@ -38,14 +38,26 @@ def list_checkpoints(output_dir: str) -> List[Path]:
 
 
 @st.cache_resource
-def load_model(checkpoint_path: str, hidden_dims: Tuple[int, ...]) -> torch.nn.Module:
-    path = Path(checkpoint_path)
-    if path.name.startswith("baseline"):
+def load_model(checkpoint_path: str, hidden_dims: Tuple[int, ...], model_kind: str) -> torch.nn.Module:
+    if model_kind == "BaselineMLP":
         model: torch.nn.Module = BaselineMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
     else:
         model = PrunableMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
 
-    state_dict = torch.load(path, map_location="cpu")
+    state_dict = torch.load(Path(checkpoint_path), map_location="cpu")
+    model.load_state_dict(state_dict)
+    model.eval()
+    return model
+
+
+def load_uploaded_model(checkpoint_file: BinaryIO, hidden_dims: Tuple[int, ...], model_kind: str) -> torch.nn.Module:
+    if model_kind == "BaselineMLP":
+        model: torch.nn.Module = BaselineMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
+    else:
+        model = PrunableMLP(input_dim=32 * 32 * 3, hidden_dims=hidden_dims, num_classes=10)
+
+    checkpoint_file.seek(0)
+    state_dict = torch.load(checkpoint_file, map_location="cpu")
     model.load_state_dict(state_dict)
     model.eval()
     return model
@@ -54,11 +66,9 @@ def load_model(checkpoint_path: str, hidden_dims: Tuple[int, ...]) -> torch.nn.M
 @st.cache_data
 def load_cifar_test_set(data_dir: str) -> datasets.CIFAR10 | None:
     root = Path(data_dir)
-    if not root.exists():
-        return None
     try:
-        return datasets.CIFAR10(root=str(root), train=False, download=False)
-    except RuntimeError:
+        return datasets.CIFAR10(root=str(root), train=False, download=True)
+    except Exception:
         return None
 
 
@@ -107,14 +117,25 @@ def main() -> None:
         output_dir = st.text_input("Checkpoint folder", value="outputs")
         hidden_dims_input = st.text_input("Hidden dims", value="512,256,128")
         data_dir = st.text_input("CIFAR data folder", value="data")
+        uploaded_ckpt = st.file_uploader("Or upload checkpoint (.pt)", type=["pt"])
+        uploaded_model_kind = st.selectbox(
+            "Uploaded checkpoint type",
+            ["PrunableMLP", "BaselineMLP"],
+            index=0,
+            help="Choose the architecture used when this checkpoint was trained.",
+        )
 
     checkpoints = list_checkpoints(output_dir)
-    if not checkpoints:
-        st.error("No .pt checkpoints found. Train first or point to a valid outputs folder.")
-        st.stop()
+    checkpoint_path: str | None = None
+    checkpoint_kind = "PrunableMLP"
 
-    checkpoint_name = st.selectbox("Choose checkpoint", [p.name for p in checkpoints], index=0)
-    checkpoint_path = str(Path(output_dir) / checkpoint_name)
+    if checkpoints:
+        checkpoint_name = st.selectbox("Choose checkpoint", [p.name for p in checkpoints], index=0)
+        checkpoint_path = str(Path(output_dir) / checkpoint_name)
+        checkpoint_kind = "BaselineMLP" if checkpoint_name.startswith("baseline") else "PrunableMLP"
+    else:
+        st.warning("No local .pt checkpoint found in the selected folder.")
+        st.info("Upload a checkpoint file from your machine to run inference in deployed mode.")
 
     try:
         hidden_dims = parse_hidden_dims(hidden_dims_input)
@@ -122,7 +143,15 @@ def main() -> None:
         st.error(str(exc))
         st.stop()
 
-    model = load_model(checkpoint_path, hidden_dims)
+    model: torch.nn.Module
+    if checkpoint_path is not None:
+        model = load_model(checkpoint_path, hidden_dims, checkpoint_kind)
+    elif uploaded_ckpt is not None:
+        model = load_uploaded_model(uploaded_ckpt, hidden_dims, uploaded_model_kind)
+        checkpoint_kind = uploaded_model_kind
+    else:
+        st.error("Add a checkpoint: either provide a valid folder or upload a .pt file.")
+        st.stop()
 
     if isinstance(model, PrunableMLP):
         sparsity = model.sparsity_level(threshold=1e-2)

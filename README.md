@@ -195,7 +195,10 @@ Features:
 | 4 | Set entry file to app.py |
 | 5 | Deploy; dependencies install from requirements.txt |
 
-Note: if you need CIFAR test-sample mode in cloud, keep the data folder tracked or update app.py to download CIFAR at runtime.
+Cloud note:
+
+- If `outputs/` is not in the repo, use the app sidebar to upload a `.pt` checkpoint file.
+- CIFAR test samples are auto-downloaded by the app when needed.
 
 ## Troubleshooting
 
