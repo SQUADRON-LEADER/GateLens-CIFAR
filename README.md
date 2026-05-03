@@ -18,7 +18,6 @@ GateLens-CIFAR is a PyTorch project for learning sparse neural connections throu
 8. [Streamlit frontend](#streamlit-frontend)
 9. [Deploy on Streamlit Community Cloud](#deploy-on-streamlit-community-cloud)
 10. [Generated artifacts](#generated-artifacts)
-11. [License and usage](#license-and-usage)
 
 ## Project at a glance
 
