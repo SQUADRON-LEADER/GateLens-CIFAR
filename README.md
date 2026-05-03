@@ -160,7 +160,6 @@ From the current report run:
 | Trade-off emerges with larger lambda or longer epochs | Better sparsity usually costs some accuracy |
 
 ## Streamlit frontend
-
 Run locally:
 
 ```bash
