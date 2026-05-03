@@ -140,7 +140,6 @@ python train.py --epochs 1 --batch-size 256 --lambdas 1e-6,1e-5,1e-4 --run-basel
 ## Measured results snapshot
 
 From the current report run:
-
 | Lambda | Test Accuracy (%) | Sparsity (% gates < 1e-2) |
 |---:|---:|---:|
 | 1.0e-06 | 44.63 | 0.00 |
