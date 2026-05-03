@@ -184,7 +184,6 @@ Features:
 | 5 | Deploy; dependencies install from requirements.txt |
 
 Cloud note:
-
 - If `outputs/` is not in the repo, use the app sidebar to upload a `.pt` checkpoint file.
 - CIFAR test samples are auto-downloaded by the app when needed.
 
