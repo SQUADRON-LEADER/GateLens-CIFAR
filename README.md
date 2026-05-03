@@ -166,7 +166,6 @@ Run locally:
 ```bash
 streamlit run app.py
 ```
-
 Features:
 1. Select any saved checkpoint in outputs.
 2. Upload image or pick a CIFAR test sample.
