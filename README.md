@@ -168,7 +168,6 @@ streamlit run app.py
 ```
 
 Features:
-
 1. Select any saved checkpoint in outputs.
 2. Upload image or pick a CIFAR test sample.
 3. View top-1 prediction and top-5 probabilities.
