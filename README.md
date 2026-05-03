@@ -46,8 +46,6 @@ GateLens-CIFAR is a PyTorch project for learning sparse neural connections throu
 The sparsity term is:
 
 SparsityLoss = sum(sigmoid(gate_scores))
-
-
 This behaves like an L1-style pressure on effective gates. Each active connection contributes linear cost, so training is encouraged to deactivate weaker connections whenever accuracy allows. Increasing lambda increases pruning pressure and usually shifts the model toward higher sparsity with a potential accuracy trade-off.
 
 ## Mathematical formulation
